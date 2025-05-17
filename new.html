@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maranatha Prayer House</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #dda06b;
+        }
+
+        body {
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--primary-color);
+            padding: 0.5rem 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 140px;
+            width: 260px;
+            transition: all 0.3s ease;
+        }
+
+        .header-title {
+            color: white;
+            margin-left: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .announcement-bar {
+            background: var(--accent-color);
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: fixed;
+            top: 70px; /* Adjust based on your header height */
+            width: 100%;
+            z-index: 999;
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.postimg.cc/fTXscJ6J/IMG-20250209-WA0010.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 1rem;
+            margin-top: 70px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .section {
+            padding: 5rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-times {
+            text-align: center;
+        }
+
+        .event {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 1rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .yt-button {
+            background: #ff0000;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        .yt-button:hover {
+            background: #cc0000;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section .card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .section .card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                flex-direction: column;
+                background: var(--primary-color);
+                width: 100%;
+                padding: 2rem;
+                transition: right 0.3s ease-in-out;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .header-title {
+                font-size: 1.2rem;
+                margin-left: 0.5rem;
+            }
+
+            .logo-img {
+                height: 50px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .marquee-content {
+                animation-duration: 20s;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-menu">
+            <a href="#" class="logo">
+                <img src="https://i.postimg.cc/DZhwt1LJ/IMG-20250209-WA0010-removebg-preview.png" alt="MPH Logo" class="logo-img">
+            </a>
+            <h1 class="header-title">MARANATHA PRAYER HOUSE</h1>
+            <div class="nav-links">
+                <a href="#welcome">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#events">Events</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="announcement-bar">
+        <div class="marquee-content">
+            Welcome to Maranatha Prayer House! Join us for worship and fellowship. Stay blessed!
+        </div>
+    </div>
+    
+
+    <section class="hero" id="welcome">
+        <div>
+            <h1>Welcome to Maranatha Prayer House</h1>
+            <p>Where Faith, Hope, and Love Come Together</p>
+            <a href="https://www.youtube.com/@mphsubhashnagar5999" class="yt-button" target="_blank">📺 Watch Live</a>
+    </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <h2>About Us</h2>
+        <div class="about-content grid">
+            <div class="card">
+                <h3>Our Mission</h3>
+                <p>Welcome to MPH, a place where you can grow in faith, connect with others, and serve the community. We are dedicated to spreading the love of Christ and helping people find their purpose in life.</p>
+                <h3>Core Values</h3>
+                <ul>
+                    <li>Prayer-Centered Living</li>
+                    <li>Biblical Teaching</li>
+                    <li>Community Outreach</li>
+                    <li>Family Unity</li>
+                </ul>
+            </div>
+            <img src="https://i.postimg.cc/kgt8cS46/image.png" alt="Prayer Hall" class="card about-image">
+        </div>
+    </section>
+
+    <section class="section" id="services">
+        <h2>Service Times</h2>
+        <div class="grid">
+            <div class="card service-times">
+                <h3>Sunday Morning Service: </h3>
+                <p>8:00 AM - 10:00 AM</p>
+            </div>
+            <div class="card service-times">
+                <h3>Sunday Evening Service: </h3>
+                <p>7:30 PM - 9:30PM</p>
+            </div>
+            <div class="card service-times">
+                <h3>Friday Fasting Prayer:</h3>
+                <p> 8:00 PM - 9:30 PM</p>
+            </div>
+             <div class="card service-times">
+                <h3>2ND SUNDAY MORNING SERVICE:</h3>
+                <p>11:00 AM - 1:00 PM</p>
+            </div>
+            <div class="card service-times">
+                <h3>SUNDAY SCHOOL :</h3>
+                <p>8:00 AM - 10:00 AM</p>
+            </div>
+            <div class="card service-times">
+                <h3>YOUTH MEETING  :</h3>
+                <p>10:00 AM - 11:00 AM</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="events">
+        <h2> Events<br> our  events:</h2>
+        <div class="grid">
+            <div class="card event">
+                <h3>MPH CAROLS</h3>
+                
+    <a href="#" class="logo">
+      <img src="https://i.postimg.cc/bNmBDNgB/IMG-20250508-WA0002.jpg" alt="MPH Logo" class="logo-img" >
+    </a>
+    <p><strong>MPH Christmas carol service was a joyful celebration.</strong></p>
+    <a href="https://youtu.be/C93x2yLBteY?si=Z0JvWVtoS0IIz3aH" class="yt-button" target="_blank">📺 carols 2023</a>
+    <a href="https://youtu.be/hGZVLu7lADg?si=G6KiRkG5vUj5pnlj" class="yt-button" target="_blank">📺carols 2024</a>
+   
+  </div>
+            <div class="card event">
+                <h3>MPH CHRISTMAS CELEBRATIONS</h3>
+                
+    <a href="#" class="logo">
+      <img src="https://i.postimg.cc/LsYwMKz0/IMG-20250508-WA0001.jpg" alt="MPH Logo" class="logo-img" >
+    </a>
+    <p><strong>Christmas is a time for joy,love,and celebration.</strong></p>
+    <a href="https://www.youtube.com/live/Cs79NhhUkHY?si=dkiWp7pdM9bv0PdX" class="yt-button" target="_blank">📺 Watch Here</a>
+      </div>
+
+
+  <div class="card event">
+    <h3>WATCH NIGHT SERVICE </h3>
+<a href="#" class="logo">
+<img src="https://i.postimg.cc/26NcRqjV/IMG-20250508-WA0007.jpg" alt="MPH Logo" class="logo-img" >
+</a>
+<p><strong>As we gather tonight, let us give thanks for God's faithfulness and anticipate the blessings of the new year.</strong></p>
+
+<a href="https://www.youtube.com/live/RiOFJXsLtus?si=T-7Xbs6D3OrWvQ3M" class="yt-button" target="_blank">📺 Watch Here</a>
+</div>
+
+
+<div class="card event">
+    <h3>RESURRECTION SERVICE</h3>
+<a href="#" class="logo">
+<img src="https://i.postimg.cc/3wvScjTs/IMG-20250508-WA0006.jpg" alt="MPH Logo" class="logo-img" >
+</a>
+<p><strong>The Resurrection Service celebrates the hope of eternal life, commemorating the death and resurrection of Jesus Christ.</strong></p>
+<a href="https://www.youtube.com/live/nm2sChvyNvs?si=iA_9StN0ZB9yM78Q" class="yt-button" target="_blank">📺 Watch Here</a>
+</div>
+
+
+<div class="card event">
+    <h3>VACATION BIBLE SCHOOL</h3>
+    <p><strong>ADVENTURE WITH JESUS</strong></p>
+<a href="#" class="logo">
+<img src="https://i.postimg.cc/ryhzZxLK/Whats-App-Image-2025-04-20-at-06-08-19-81e91e4a.jpg" alt="MPH Logo" class="logo-img" >
+</a>
+<p>25th & 26th APRIL 2025</p>
+<p><strong>A FUN FILLED VBS!</strong></p>
+<a href="https://youtu.be/zejZivmLDEQ?si=PLHgsSanklcEUR_4" class="yt-button" target="_blank">📺 DAY 1</a>
+<a href="https://youtu.be/XyahOmVrIuA?si=ZAhCxxYENFqvBVKb" class="yt-button" target="_blank">📺 DAY 2</a>
+</div>
+<div class="card event">
+    <h3>SUNDAY WORSHIP</h3>
+    
+<a href="#" class="logo">
+<img src="https://i.postimg.cc/RVSYZn7t/IMG-20250508-WA0005.jpg" alt="MPH Logo" class="logo-img" >
+</a>
+
+<p><strong>Hindi and English service</strong></p>
+<a href="https://www.youtube.com/live/d5ViUhXZd_o?si=WPUn_DSeqAjssKCd" class="yt-button" target="_blank">📺 HINDI</a>
+<a href="https://www.youtube.com/live/rlW9UlQbZjg?si=cDur6DDFMwp6YXXG" class="yt-button" target="_blank">📺 ENGLISH</a>
+
+</div> 
+<div class="card event">
+    <h3>TAMIL WORSHIP SERVICE</h3>
+    
+<a href="#" class="logo">
+<img src="https://i.postimg.cc/rm23ZqgM/image.png" alt="MPH Logo" class="logo-img" >
+</a>
+
+<p><strong>TAMIL service</strong></p>
+<a href="https://www.youtube.com/live/7ug4vqPw9HE?si=RBaSj93Tj5TKxwMV" class="yt-button" target="_blank">📺 Watch Here</a>
+
+</div>
+<div class="card event">
+    <h3>VACATION BIBLE SCHOOL</h3>
+    <p><strong>KIDS KINGDOM</strong></p>
+<a href="#" class="logo">
+<img src="https://i.postimg.cc/cLjkh9V7/IMG-20250508-WA0003.jpg" alt="MPH Logo" class="logo-img" >
+</a>
+<p>12th & 13th may 2023</p>
+<p><strong>A FUN FILLED VBS!</strong></p>
+<a href="https://youtu.be/nEhXtjHdZo8?si=9PPN3-4FstV1zST8" class="yt-button" target="_blank">📺 DAY 1</a>
+<a href="https://youtu.be/UfynGGQFnn4?si=57QKDZS0c4k-jce6" class="yt-button" target="_blank">📺 DAY 2</a>
+</div> 
+        </div>
+    </section>
+
+    <section class="section" id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-grid grid">
+            <div class="gallery-item card">
+                <img src="gallery1.jpg" alt="Worship Service">
+                <div class="gallery-overlay">
+                    <span>Sunday Service</span>
+                </div>
+            </div>
+            <div class="gallery-item card">
+                <img src="gallery2.jpg" alt="Bible Study">
+                <div class="gallery-overlay">
+                    <span>Bible Study</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-form">
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Maranatha Prayer House. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const logo = document.querySelector('.logo');
+        const navLinks = document.querySelector('.nav-links');
+
+        logo.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.classList.toggle('active');
+        });
+
+        // Intersection Observer for Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.card, .about-image').forEach((element, index) => {
+                        setTimeout(() => {
+                            element.classList.add('active');
+                        }, index * 200);
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

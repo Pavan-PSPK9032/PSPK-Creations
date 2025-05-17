@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, #3a639b, #001944);
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        p {
+            color: #ddd;
+        }
+
+        .levels {
+            margin-top: 20px;
+        }
+
+        .level-link {
+            margin: 0 15px;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .easy { background-color: #2ecc71; }
+        .medium { background-color: #f39c12; }
+        .hard { background-color: #e74c3c; }
+
+        .level-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Game board - Display 2 cards per row */
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(2, 100px); /* 2 cards per row */
+            gap: 10px;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 250px;
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            background-color: #3498db; /* Default background color */
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card .front,
+        .card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .card .front {
+            background-color: #3498db; /* Default color (front of the card) */
+        }
+
+        .card .back {
+            background-color: transparent;
+            transform: rotateY(180deg);
+        }
+
+        .card .back img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Modal (Custom Dialog Box) Styling */
+        #myModal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+        }
+
+        #modalContent {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        #closeModal {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #closeModal:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Memory Card Game</h1>
+    <p>Match all the pairs to win!</p>
+    
+    <div class="levels">
+        <a href="#" class="level-link easy" onclick="startGame('easy')">Easy</a>
+        <a href="#" class="level-link medium" onclick="startGame('medium')">Medium</a>
+        <a href="#" class="level-link hard" onclick="startGame('hard')">Hard</a>
+    </div>
+
+    <div class="game-board" id="gameBoard"></div>
+
+    <p id="result"></p>
+
+    <!-- Custom Modal -->
+    <div id="myModal">
+        <div id="modalContent">
+            <h2>Congratulations!</h2>
+            <p>You matched all the pairs!</p>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function startGame(level) {
+            const easyCards = [
+                'https://i.postimg.cc/6QmYS7bX/d7ccd6c5e5a2e3434e72d93a38b9772d.jpg', 'https://i.postimg.cc/6QmYS7bX/d7ccd6c5e5a2e3434e72d93a38b9772d.jpg', 
+                'https://i.postimg.cc/280vTsKp/dark-anime-character-wallpaper-24.webp', 'https://i.postimg.cc/280vTsKp/dark-anime-character-wallpaper-24.webp', 
+                'https://i.postimg.cc/QxFxGvMZ/images-1.jpg', 'https://i.postimg.cc/QxFxGvMZ/images-1.jpg'
+            ];
+            const mediumCards = [
+                'https://i.postimg.cc/6QmYS7bX/d7ccd6c5e5a2e3434e72d93a38b9772d.jpg', 'https://i.postimg.cc/6QmYS7bX/d7ccd6c5e5a2e3434e72d93a38b9772d.jpg', 
+                'https://i.postimg.cc/280vTsKp/dark-anime-character-wallpaper-24.webp', 'https://i.postimg.cc/280vTsKp/dark-anime-character-wallpaper-24.webp', 
+                'https://i.postimg.cc/QxFxGvMZ/images-1.jpg', 'https://i.postimg.cc/QxFxGvMZ/images-1.jpg', 
+                'https://i.postimg.cc/g2Dhf7sp/anime-girl-pfp-2-by-kenkanekiart-dfbouue-pre.jpg', 'https://i.postimg.cc/g2Dhf7sp/anime-girl-pfp-2-by-kenkanekiart-dfbouue-pre.jpg'
+            ];
+            const hardCards = [
+                'https://i.postimg.cc/6QmYS7bX/d7ccd6c5e5a2e3434e72d93a38b9772d.jpg', 'https://i.postimg.cc/6QmYS7bX/d7ccd6c5e5a2e3434e72d93a38b9772d.jpg', 
+                'https://i.postimg.cc/280vTsKp/dark-anime-character-wallpaper-24.webp', 'https://i.postimg.cc/280vTsKp/dark-anime-character-wallpaper-24.webp', 
+                'https://i.postimg.cc/QxFxGvMZ/images-1.jpg', 'https://i.postimg.cc/QxFxGvMZ/images-1.jpg', 
+                'https://i.postimg.cc/g2Dhf7sp/anime-girl-pfp-2-by-kenkanekiart-dfbouue-pre.jpg', 'https://i.postimg.cc/g2Dhf7sp/anime-girl-pfp-2-by-kenkanekiart-dfbouue-pre.jpg', 
+                'https://i.postimg.cc/WzLtDm8S/images-2.jpg', 'https://i.postimg.cc/WzLtDm8S/images-2.jpg', 
+                'https://i.postimg.cc/4ygN4f4S/images-3.jpg', 'https://i.postimg.cc/4ygN4f4S/images-3.jpg'
+            ];
+
+            let cards;
+            if (level === 'easy') {
+                cards = easyCards;
+            } else if (level === 'medium') {
+                cards = mediumCards;
+            } else {
+                cards = hardCards;
+            }
+
+            // Shuffle the cards
+            cards.sort(() => 0.5 - Math.random());
+
+            // Display the game board
+            const gameBoard = document.getElementById('gameBoard');
+            gameBoard.innerHTML = '';
+
+            // Create cards on the board
+            cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                cardElement.dataset.card = card;
+
+                const front = document.createElement('div');
+                front.classList.add('front');
+
+                const back = document.createElement('div');
+                back.classList.add('back');
+                const img = document.createElement('img');
+                img.src = card;
+                img.alt = 'Card Image';
+                back.appendChild(img);
+
+                cardElement.appendChild(front);
+                cardElement.appendChild(back);
+                gameBoard.appendChild(cardElement);
+            });
+
+            startGameLogic(cards);
+        }
+
+        function startGameLogic(cards) {
+            const modal = document.getElementById('myModal');
+            const closeModal = document.getElementById('closeModal');
+            const resultDisplay = document.getElementById('result');
+
+            let hasFlippedCard = false;
+            let firstCard, secondCard;
+            let lockBoard = false;
+            let matches = 0;
+
+            closeModal.onclick = function () {
+                modal.style.display = "none";
+                startGame('easy'); // Restart the game after closing the modal
+            };
+
+            function flipCard() {
+                if (lockBoard) return;
+                if (this === firstCard) return;
+
+                this.classList.add('flipped');
+
+                if (!hasFlippedCard) {
+                    hasFlippedCard = true;
+                    firstCard = this;
+                    return;
+                }
+
+                secondCard = this;
+                checkForMatch();
+            }
+
+            function checkForMatch() {
+                const isMatch = firstCard.dataset.card === secondCard.dataset.card;
+
+                if (isMatch) {
+                    disableCards();
+                } else {
+                    unflipCards();
+                }
+            }
+
+            function disableCards() {
+                firstCard.removeEventListener('click', flipCard);
+                secondCard.removeEventListener('click', flipCard);
+                resetBoard();
+                matches++;
+
+                if (matches === cards.length / 2) {
+                    modal.style.display = "block"; // Show the modal when all pairs are matched
+                }
+            }
+
+            function unflipCards() {
+                lockBoard = true;
+
+                setTimeout(() => {
+                    firstCard.classList.remove('flipped');
+                    secondCard.classList.remove('flipped');
+                    resetBoard();
+                }, 1000);
+            }
+
+            function resetBoard() {
+                [hasFlippedCard, lockBoard] = [false, false];
+                [firstCard, secondCard] = [null, null];
+            }
+
+            // Add click event listener to all cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', flipCard);
+            });
+        }
+    </script>
+</body>
+</html>
