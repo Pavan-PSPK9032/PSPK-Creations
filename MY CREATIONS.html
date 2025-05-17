@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pavan Studio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #2E2E2E;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #bad472;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 2px solid #8a9a5b;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0.8);
+        }
+        .section-title {
+            margin-top: 0;
+            color: #ea0945;
+            border-bottom: 2px solid #8a9a5b;
+            padding-bottom: 10px;
+            font-size: 1.5em;
+            text-transform: uppercase;
+        }
+        .game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .game-item {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid #8a9a5b;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .game-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            background-color: #d4e6a3;
+            border-color: #ea0945;
+        }
+        .game-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+        .game-item:hover .game-icon {
+            transform: scale(1.1);
+        }
+        .game-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: #2E2E2E;
+        }
+        .game-desc {
+            font-size: 13px;
+            color: #bb1717;
+            margin-bottom: 10px;
+            min-height: 36px;
+        }
+    </style>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-family: 'Anton', sans-serif; font-size: 3.5em; color: #ea0945; letter-spacing: 2px;">THE PAVAN STUDIO</h1>
+        
+        <!-- Games Section -->
+        <div class="section">
+            <h2 class="section-title">Games</h2>
+            <div class="game-list" id="games-section">
+                <!-- Game items will be added here dynamically -->
+            </div>
+        </div>
+        
+        <!-- Websites Section -->
+        <div class="section">
+            <h2 class="section-title">Websites</h2>
+            <div class="game-list" id="websites-section">
+                <!-- Website items will be added here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const gamesData = {
+            "Games": [
+                {
+                    "name": "TIC TAC TOE",
+                    "description": "Classic X and O game against computer",
+                    "icon": "❌⭕",
+                    "file": "index.html"
+                },
+                {
+                    "name": "ROCK PAPER SCISSORS",
+                    "description": "Challenge the computer in RPS",
+                    "icon": "🪨✋✂️",
+                    "file": "RPS.html"
+                },
+                {
+                    "name": "MEMORY CARDS",
+                    "description": "Test and improve your memory",
+                    "icon": "🧠",
+                    "file": "Memory card.html"
+                },
+                {
+                    "name": "FLAPPY BIRD",
+                    "description": "Classic arcade flying challenge",
+                    "icon": "🐦",
+                    "file": "Flappy Bird.html"
+                },
+                {
+                    "name": "FLIP CARD",
+                    "description": "Memory matching card game",
+                    "icon": "🃏",
+                    "file": "FLIP CARD/index.html"
+                },
+                {
+                    "name": "VIRTUAL PIANO",
+                    "description": "Play musical notes online",
+                    "icon": "🎹",
+                    "file": "virtual piano.html"
+                }
+            ],
+            "Websites": [
+                {
+                    "name": "TOURISM GUIDE",
+                    "description": "Explore beautiful destinations",
+                    "icon": "🌎",
+                    "file": "tourism/index.html"
+                },
+                {
+                    "name": "FASHION DESIGN",
+                    "description": "Latest fashion trends and styles",
+                    "icon": "👗",
+                    "file": "fassion desining/index.html"
+                },
+                {
+                    "name": "FITNESS GUIDE 1",
+                    "description": "Workouts to get you in shape",
+                    "icon": "💪",
+                    "file": "fitness/index.html"
+                },
+                {
+                    "name": "FITNESS GUIDE 2",
+                    "description": "Advanced fitness routines",
+                    "icon": "🏋️",
+                    "file": "fitness 2/index.html"
+                },
+                {
+                    "name": "MARANATHA PRAYER HOUSE",
+                    "description": "Spiritual resources and guidance",
+                    "icon": "⛪",
+                    "file": "new.html"
+                }
+            ]
+        };
+
+        // Function to create items
+        function createItems() {
+            const gamesSection = document.getElementById('games-section');
+            const websitesSection = document.getElementById('websites-section');
+            
+            // Add games
+            gamesData["Games"].forEach(item => {
+                gamesSection.appendChild(createItemElement(item));
+            });
+            
+            // Add websites
+            gamesData["Websites"].forEach(item => {
+                websitesSection.appendChild(createItemElement(item));
+            });
+        }
+        
+        // Function to create a single item element
+        function createItemElement(item) {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'game-item';
+            itemElement.onclick = function() {
+                window.location.href = item.file;
+            };
+            
+            itemElement.innerHTML = `
+                <div class="game-icon">${item.icon}</div>
+                <div class="game-name">${item.name}</div>
+                <div class="game-desc">${item.description}</div>
+            `;
+            
+            return itemElement;
+        }
+        
+        // Initialize the page
+        window.onload = createItems;
+    </script>
+</body>
+</html>
